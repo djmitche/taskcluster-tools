@@ -1,6 +1,7 @@
 var React           = require('react');
-var Terminal        = require('term.js/src/term');
 var utils           = require('../utils');
+var ansi_up         = require('ansi_up');
+var Infinite        = require('react-infinite');
 
 
 /** Display terminal output */
@@ -17,23 +18,17 @@ var TerminalView = React.createClass({
   getDefaultProps: function() {
     return {
       url:            undefined,  // No URL to display at this point
-      options: {
-        cols:         120,
-        rows:         40,
-        cursorBlink:  true,
-        visualBell:   false,
-        popOnBell:    false,
-        screenKeys:   false,
-        scrollback:   50000,
-        debug:        false,
-        useStyle:     true
-      }
+    };
+  },
+
+  getInitialState: function() {
+    return {
+      elements:          [],
     };
   },
 
   propTypes: {
     url:      React.PropTypes.string,
-    options:  React.PropTypes.object.isRequired
   },
 
   // Refresh the currently displayed file
@@ -43,31 +38,15 @@ var TerminalView = React.createClass({
 
   /** Open a URL in the terminal */
   open: function() {
-    // Destroy existing terminal if there is one
-    if (this.term) {
-      this.term.destroy();
-      this.term = null;
-    }
+    this.setState({
+        elements: [],
+    });
+    this.buffer = '';  // un-terminated trailing data
+
     // Abort previous request if any
     if (this.request) {
       this.abortRequest();
     }
-
-    // Create new terminal
-    this.term = new Terminal(this.props.options);
-    this.term.open(this.refs.term.getDOMNode());
-    // term.js does a setTimeout() then calls element.focus()
-    // This is truly annoying. To avoid it we could remove the tabindex property
-    // but then we can copy out text.
-    //   this.term.element.removeAttribute('tabindex');
-    // So the solution is to be naughty and monkey patch the element, we'll then
-    // restore it to it's former glory when it is called the first time.
-    // This is super ugly and fragile, but it works...
-    var focusMethod = this.term.element.focus;
-    var element     = this.term.element;
-    element.focus = function() {
-      element.focus = focusMethod;
-    };
 
     // If not given a URL we'll just stop here with an empty terminal
     if (!this.props.url) {
@@ -75,6 +54,7 @@ var TerminalView = React.createClass({
     }
 
     // Open a new request
+    console.timeStamp("req");
     this.dataOffset = 0;
     this.request = new XMLHttpRequest();
     this.request.open('get', this.props.url, true);
@@ -83,7 +63,23 @@ var TerminalView = React.createClass({
     this.request.send();
   },
 
+  writeData: function(data) {
+    console.timeStamp("write");
+    var lines = (this.buffer + data).split("\n");
+    this.buffer = lines.pop();  // empty unless data was not newline-terminated
+
+    var newElements = [];
+    var offset = this.state.elements.length;
+    lines.forEach(function(l, i) {
+      newElements.push(<p key={offset+i}>{l}</p>);
+    });
+    this.setState({
+      elements: this.state.elements.concat(newElements)
+    });
+  },
+
   onData: function() {
+    console.timeStamp("onData");
     // Write data to term if there is any data
     if (this.request.responseText !== null ||
         this.request.responseText !== undefined) {
@@ -95,22 +91,20 @@ var TerminalView = React.createClass({
         // Update dataOffset
         this.dataOffset = length;
         // Write to term
-        this.term.write(data);
+        this.writeData(data);
       }
     }
     // When request is done
     if (this.request.readyState === this.request.DONE) {
-      // Stop cursor from blinking
-      this.term.cursorBlink = false;
-      if (this.term._blink) {
-        clearInterval(this.term._blink);
+      // add a trailing newline if none was provided
+      if (this.buffer) {
+        this.writeData("\n");
       }
-      this.term.showCursor();
-
       // Write an error, if request failed
       if (this.request.status !== 200) {
-        this.term.write("\r\n[task-inspector] Failed to fetch log!\r\n");
+        this.writeData("\r\n[task-inspector] Failed to fetch log!\r\n");
       }
+      console.timeStamp("done");
     }
   },
 
@@ -125,12 +119,16 @@ var TerminalView = React.createClass({
     if (this.request) {
       this.abortRequest();
     }
-    this.term.destroy();
-    this.term = null;
   },
 
   render: function() {
-    return <div className="terminal-view" ref="term"></div>;
+    console.timeStamp("RENDER");
+    return <Infinite
+        containerHeight={840}
+        elementHeight={13}
+        className="terminal-view">
+        {this.state.elements}
+    </Infinite>
   }
 });
 

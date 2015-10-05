@@ -74,8 +74,10 @@ var LogView = React.createClass({
             </button>
           </div>
         </dd>
+        <dd>
+          <TerminalView url={logUrl} ref="termView"/>
+        </dd>
       </dl>
-      <TerminalView url={logUrl} ref="termView"/>
       </span>
     );
   },
