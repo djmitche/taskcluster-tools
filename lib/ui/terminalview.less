@@ -1,4 +1,7 @@
-div.terminal-view {
+@import (less) "../node_modules/codemirror/lib/codemirror.css";
+@import (less) "../node_modules/codemirror/theme/ambiance.css";
+
+textarea.terminal-view {
     font-family: "DejaVu Sans Mono", "Liberation Mono", monospace;
     font-size: 11px;
 
@@ -11,11 +14,19 @@ div.terminal-view {
     overflow: auto;
 }
 
-div.terminal-view p {
-    height: 13px;
+div.terminal-view pre {
+    height: 130px;
     padding: 0px;
     border: 0px;
     margin: 0px;
-    white-space: pre;
-    display: block;
+}
+
+.CodeMirror {
+   height:      auto;
+   max-height: 630px;
+}
+
+.CodeMirror-scroll {
+  overflow-x:   auto;
+  overflow-y:   hidden;
 }
