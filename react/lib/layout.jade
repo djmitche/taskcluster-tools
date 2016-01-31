@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    block head
+      block title
+        title TaskCluster Tools
+      link(rel="stylesheet", href="#{relPath('lib/layout.css')}")
+      link(rel="shortcut icon", href="#{relPath('lib/assets/favicon.ico')}")
+      script(src="#{relPath('common.bundle.js')}")
+      script(src="#{relPath('lib/layout.bundle.js')}")
+  body
+    div#navbar
+    div.container-fluid#container
+      block content
