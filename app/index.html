@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html lang="en" ng-app="tools" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="tools" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="tools" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="tools" class="no-js"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,22 +11,216 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="lib/layout.css">
   <link rel="stylesheet" href="app.css">
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
-  <ul class="menu">
-    <li><a href="#/view1">view1</a></li>
-    <li><a href="#/view2">view2</a></li>
-  </ul>
 
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-  <div ng-view></div>
-
-  <div>Angular seed app: v<span app-version></span></div>
+  <div id="navbar">
+      <nav role="navigation" class="navbar navbar-default navbar-static-top navbar-inverse">
+          <div class="container-fluid">
+              <div class="navbar-header">
+                  <a class="navbar-brand" href="/">
+                      <img src="lib/assets/taskcluster-36.png" width="36" height="36">
+                      <span>
+                          &nbsp; TaskCluster Tools</span>
+                  </a>
+              </div>
+              <div class="navbar-text">
+                  <span>
+                      <span class="fa fa-users fa-fw">
+                      </span>
+                      <span>
+                          &nbsp;&nbsp;</span>
+                      <span>
+                          Client Manager </span>
+                  </span>
+              </div>
+              <ul class="navbar-right nav navbar-nav">
+                  <li class="dropdown">
+                  <a class="dropdown-toggle" type="button" href="#" role="button">
+                      <span>
+                          Tools</span>
+                      <span>
+                      </span>
+                      <span class="caret">
+                      </span>
+                  </a>
+                  <ul class="dropdown-menu" role="menu">
+                      <li role="presentation" class="">
+                      <a href="/task-inspector/" tabindex="-1">
+                          <span class="fa fa-cube fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              Task Inspector</span>
+                      </a>
+                      </li>
+                      <li role="presentation" class="">
+                      <a href="/task-graph-inspector/" tabindex="-1">
+                          <span class="fa fa-cubes fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              Task-Graph Inspector</span>
+                      </a>
+                      </li>
+                      <li role="presentation" class="">
+                      <a href="/task-creator/" tabindex="-1">
+                          <span class="fa fa-pencil-square-o fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              Task Creator</span>
+                      </a>
+                      </li>
+                      <li role="presentation" class="">
+                      <a href="/aws-provisioner/" tabindex="-1">
+                          <span class="fa fa-server fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              AWS Provisioner</span>
+                      </a>
+                      </li>
+                      <li role="presentation" class="">
+                      <a href="/auth/clients/" tabindex="-1">
+                          <span class="fa fa-users fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              Client Manager </span>
+                      </a>
+                      </li>
+                      <li role="presentation" class="">
+                      <a href="/auth/roles/" tabindex="-1">
+                          <span class="fa fa-shield fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              Role Manager</span>
+                      </a>
+                      </li>
+                      <li role="presentation" class="">
+                      <a href="/pulse-inspector/" tabindex="-1">
+                          <span class="fa fa-wifi fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              Pulse Inspector</span>
+                      </a>
+                      </li>
+                      <li role="presentation" class="">
+                      <a href="/index/" tabindex="-1">
+                          <span class="fa fa-sitemap fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              Index Browser</span>
+                      </a>
+                      </li>
+                      <li role="presentation" class="">
+                      <a href="/index/artifacts/" tabindex="-1">
+                          <span class="fa fa-folder-open fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              Indexed Artifact Browser</span>
+                      </a>
+                      </li>
+                      <li role="presentation" class="">
+                      <a href="/hooks/" tabindex="-1">
+                          <span class="fa fa-repeat fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              Hooks Manager</span>
+                      </a>
+                      </li>
+                      <li role="presentation" class="">
+                      <a href="/secrets/" tabindex="-1">
+                          <span class="fa fa-user-secret fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              Secrets Manager</span>
+                      </a>
+                      </li>
+                      <li role="presentation" class="divider">
+                      </li>
+                      <li role="presentation" class="">
+                      <a href="http://docs.taskcluster.net" tabindex="-1">
+                          <span class="fa fa-book fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              Documentation</span>
+                      </a>
+                      </li>
+                      <li role="presentation" class="">
+                      <a href="https://github.com/taskcluster/taskcluster-tools" tabindex="-1">
+                          <span class="fa fa-github fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              Github Repository</span>
+                      </a>
+                      </li>
+                      <li role="presentation" class="">
+                      <a href="https://bugzilla.mozilla.org/buglist.cgi?product=Taskcluster&amp;bug_status=__open__" tabindex="-1">
+                          <span class="fa fa-bug fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              Bugzilla Product</span>
+                      </a>
+                      </li>
+                      <li role="presentation" class="divider">
+                      </li>
+                      <li role="presentation" class="">
+                      <a href="/preferences/" tabindex="-1">
+                          <span class="fa fa-cogs fa-fw">
+                          </span>
+                          <span>
+                              &nbsp;&nbsp;</span>
+                          <span>
+                              Preferences</span>
+                      </a>
+                      </li>
+                  </ul>
+                  </li>
+                  <li class="">
+                  <a href="#">
+                      <span class="glyphicon glyphicon-log-out">
+                      </span>
+                      <span>
+                          &nbsp; Log out</span>
+                  </a>
+                  </li>
+              </ul>
+          </div>
+      </nav>
+  </div>
+  <div id="container" class="container-fluid"></div>
 
   <!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
@@ -34,10 +228,5 @@
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="app.js"></script>
-  <script src="view1/view1.js"></script>
-  <script src="view2/view2.js"></script>
-  <script src="components/version/version.js"></script>
-  <script src="components/version/version-directive.js"></script>
-  <script src="components/version/interpolate-filter.js"></script>
 </body>
 </html>

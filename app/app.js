@@ -1,12 +1,24 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
+angular.module('tools', [
   'ngRoute',
-  'myApp.view1',
-  'myApp.view2',
-  'myApp.version'
-]).
-config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/view1'});
-}]);
+]);
+
+angular.module('tools').directive('navbar', function() {
+  return {
+    restrict: 'E',
+    replace: true,
+    templateUrl: 'static/statusIcon.html',
+    scope: {
+      bad: '=badWhen',
+      good: '=goodWhen',
+      gray: '=grayWhen',
+    },
+    link: function(scope, element, attrs) {
+      scope.$watch('bad', function() { refresh(scope); });
+      scope.$watch('good', function() { refresh(scope); });
+      scope.$watch('gray', function() { refresh(scope); });
+    },
+  };
+});
