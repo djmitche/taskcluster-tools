@@ -3,12 +3,15 @@ var bs               = require('react-bootstrap');
 var utils            = require('../lib/utils');
 var taskcluster      = require('taskcluster-client');
 
+// temporary until we have an updated taskcluster-client with the new methods in it
+var reference        = require('./temp-aws-prov-reference');
+
 var AmiSetManager = React.createClass({
   /** Initialize mixins */
   mixins: [
     utils.createTaskClusterMixin({
       clients: {
-        awsProvisioner:       taskcluster.AwsProvisioner
+        awsProvisioner:       taskcluster.createClient(reference);
       },
       clientOpts: {
         awsProvisioner: {
