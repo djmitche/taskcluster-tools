@@ -430,7 +430,6 @@ export default class ActionsMenu extends PureComponent {
       {
         taskGroupId,
         taskId,
-        task,
         input
       },
       actions.variables
@@ -440,6 +439,8 @@ export default class ActionsMenu extends PureComponent {
       const ownTaskId = nice();
 
       context.ownTaskId = ownTaskId;
+      context.task = task;
+
       const newTask = jsone(action.task, context);
       // call the queue with the decision task's scopes, as directed by the action spec
       const actionsQueue = this.props.queue.use({
